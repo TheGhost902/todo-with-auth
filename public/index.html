@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="main">
+
+        <form name='login'>
+            <p>Login</p>
+            <input type="text">
+            <input type="password">
+            <button type="submit">login</button>
+        </form>
+
+        <form name='register'>
+            <p>Register</p>
+            <input type="text">
+            <input type="password">
+            <button type="submit">register</button>
+        </form>
+
+    </div>
+
+
+
+    <script>
+
+        var loginForm = document.forms.login;
+        var registerForm = document.forms.register;
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var data = {
+                login: loginForm[0].value,
+                pass: loginForm[1].value
+            };
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/login', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(data));
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== 4) return;
+                if (xhr.status !== 200) return alert('error on requiest, code: ', xhr.status);
+                console.log(xhr.response);
+
+                if (xhr.responseText !== 'bad') {
+                    window.location.href = '/work?session=' + xhr.responseText;
+                } else {
+                    alert('login or pass is invalid!');
+                }
+            }
+
+            loginForm[0].value = '';
+            loginForm[1].value = '';
+        });
+
+    </script>
+    
+</body>
+</html>

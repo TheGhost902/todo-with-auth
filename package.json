@@ -1,0 +1,32 @@
+{
+  "name": "todo-with-auth",
+  "version": "1.0.0",
+  "description": "simple todo list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheGhost902/todo-with-auth.git"
+  },
+  "keywords": [
+    "todo",
+    "list",
+    "express",
+    "mongodb"
+  ],
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheGhost902/todo-with-auth/issues"
+  },
+  "homepage": "https://github.com/TheGhost902/todo-with-auth#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13",
+    "morgan": "^1.9.1",
+    "uuid": "^3.3.2"
+  }
+}
