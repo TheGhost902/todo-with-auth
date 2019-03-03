@@ -17,12 +17,12 @@
             <button type="submit">login</button>
         </form>
 
-        <form name='register'>
+        <!-- <form name='register'>
             <p>Register</p>
             <input type="text">
             <input type="password">
             <button type="submit">register</button>
-        </form>
+        </form> -->
 
     </div>
 
@@ -47,13 +47,20 @@
             xhr.send(JSON.stringify(data));
             xhr.onreadystatechange = function() {
                 if (xhr.readyState !== 4) return;
-                if (xhr.status !== 200) return alert('error on requiest, code: ', xhr.status);
-                console.log(xhr.response);
+                if (xhr.status !== 200) return alert('error on requiest ', xhr.status);
 
-                if (xhr.responseText !== 'bad') {
-                    window.location.href = '/work?session=' + xhr.responseText;
-                } else {
-                    alert('login or pass is invalid!');
+                var responseData = JSON.parse(xhr.response);
+                console.log(responseData);
+                switch (responseData.status) {
+                    case 'logged-in':
+                        alert('You logged in!');
+                        break;
+                    case 'user-not-found':
+                        alert('You need to register, before login!');
+                        break;
+                    case 'wrong-password':
+                        alert('Your password is wrong, try again!');
+                        break;
                 }
             }
 
