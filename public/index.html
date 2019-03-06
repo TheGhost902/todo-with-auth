@@ -54,6 +54,7 @@
                 switch (responseData.status) {
                     case 'logged-in':
                         alert('You logged in!');
+                        console.log(document.cookie);
                         break;
                     case 'user-not-found':
                         alert('You need to register, before login!');

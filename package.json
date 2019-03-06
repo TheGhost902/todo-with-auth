@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/TheGhost902/todo-with-auth#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "mongodb": "^3.1.13",
     "morgan": "^1.9.1",

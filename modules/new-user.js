@@ -8,7 +8,8 @@ function newUser(obj) {
         login,
         pass,
         token,
-        tokenTime
+        tokenTime,
+        todo: []
     };
 }
 

@@ -16,6 +16,7 @@ router.post('/', (req, res) => {
             const tokenObj = newToken();
             db.update(user, tokenObj)
                 .then((result) => {
+                    res.cookie('Token', result.token, {httpOnly: true});
                     res.send({status: 'logged-in', token: result.token});
                 })
 
