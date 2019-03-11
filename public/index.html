@@ -17,12 +17,12 @@
             <button type="submit">login</button>
         </form>
 
-        <!-- <form name='register'>
+        <form name='register'>
             <p>Register</p>
             <input type="text">
             <input type="password">
             <button type="submit">register</button>
-        </form> -->
+        </form>
 
     </div>
 
@@ -32,6 +32,38 @@
 
         var loginForm = document.forms.login;
         var registerForm = document.forms.register;
+
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var data = {
+                login: registerForm[0].value,
+                pass: registerForm[1].value
+            };
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/register', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(data));
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== 4) return;
+                if (xhr.status !== 200) return alert('error on requiest ', xhr.status);
+
+                var responseData = JSON.parse(xhr.response);
+                console.log(responseData);
+                switch (responseData.status) {
+                    case 'registered':
+                        alert('You successfully register! Now you can login!');
+                        document.location.href = '/';
+                        break;
+                    case 'user-already-registered':
+                        alert('That LOGIN already register!!!');
+                        break;
+                }
+            };
+        });
+
+        //----------------------------------------------------
 
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -54,6 +86,7 @@
                 switch (responseData.status) {
                     case 'logged-in':
                         alert('You logged in!');
+                        document.location.href = '/work';
                         console.log(document.cookie);
                         break;
                     case 'user-not-found':

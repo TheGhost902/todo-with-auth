@@ -2,21 +2,32 @@ const express = require('express');
 const morgan = require('morgan');
 const loginRouter = require('./routers/login');
 const cookieParser = require('cookie-parser');
+const isLogin = require('./middleware/isLogin');
+const registerRouter = require('./routers/register');
 
 const app = express();
 const port = 3000;
 
 app.use(morgan('tiny'));
-app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
-app.use(express.static('public'));
+app.use(express.json());
+app.use(isLogin());
 app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 
-// //тест!
-// app.use((req, res) => {
-//     console.log(req.cookies);
-//     res.send('ok');
-// });
+app.get('/work', (req, res) => {
+    if (req.isLogin.status) {
+        res.send('You in /work');
+    } else {
+        res.send('You need to <a href="/">Login!</a>');
+        console.log(req.isLogin.text);
+    }
+});
+
+app.use((req, res) => {
+    res.status(404).send('404 file or page not found');
+});
 
 app.listen(port, () => {
     console.log(`App on port ${port}...`);
