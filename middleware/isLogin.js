@@ -13,7 +13,8 @@ function isLogin() {
                     if (!user) {
                         req.isLogin = {
                             status: false,
-                            text: 'no-token-in-db'
+                            text: 'no-token-in-db',
+                            user: {}
                         };
                         return next();
                     }
@@ -21,13 +22,15 @@ function isLogin() {
                     if ((nowTime - user.tokenTime) < 300000) {
                         req.isLogin = {
                             status: true,
-                            text: 'all-is-good'
+                            text: 'all-is-good',
+                            user
                         };
                         return next();
                     } else {
                         req.isLogin = {
                             status: false,
-                            text: 'bad-token-time'
+                            text: 'bad-token-time',
+                            user: {}
                         };
                         return next();
                     }
@@ -38,7 +41,8 @@ function isLogin() {
         } else {
             req.isLogin = {
                 status: false,
-                text: 'no-token-in-cookies'
+                text: 'no-token-in-cookies',
+                user: {}
             };
             return next();
         }

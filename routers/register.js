@@ -13,7 +13,6 @@ router.post('/', (req, res) => {
             if (result === null) {
                 db.add(newUser({ login, pass }))
                     .then((addedUser) => {
-                        // res.cookie('token', addedUser.token, {httpOnly: true});
                         return res.json({status: 'registered'});
                     })
                     .catch((err) => {

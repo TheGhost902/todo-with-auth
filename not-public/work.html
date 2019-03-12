@@ -8,7 +8,74 @@
 </head>
 <body>
 
-    <h2>you are is logged in!</h2>
+    <h2>Work space!</h2>
+
+    <form name="addNew">
+        <input type="text">
+        <button type="submit">add!</button>
+    </form>
+
+    <ul id="mainList"></ul>
     
+
+
+    <script>
+
+        var addForm = document.forms.addNew;
+        var addInput = addForm[0];
+        var mainList = document.getElementById('mainList');
+
+        addForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/work/add', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({addText: addInput.value}));
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== 4) return;
+                if (xhr.status !== 200) return alert('error: ' + xhr.statusText);
+
+                var response = JSON.parse(xhr.response);
+                console.log(response);
+
+                switch(response.status) {
+                    case 'ok':
+                        addLiElement(response.text);
+                        break;
+                    case 'bad':
+                        alert(response.text);
+                        break;
+                }
+            };
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/work/all', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== 4) return;
+                if (xhr.status !== 200) return alert('error: ' + xhr.statusText);
+
+                var response = JSON.parse(xhr.response);
+
+                if (response.status) {
+                    for (var i = 0; i < response.arr.length; i++) {
+                        addLiElement(response.arr[i]);
+                    }
+                } else {
+                    alert(response.text);
+                }
+            };
+        });
+
+        function addLiElement(text) {
+            var li = document.createElement('li');
+            li.innerHTML = text;
+            mainList.appendChild(li);
+        }
+    </script>
 </body>
 </html>
